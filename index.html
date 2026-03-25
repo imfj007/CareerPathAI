@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta -->
+    <title>CareerPath AI — Free Career Guidance Tool for Students | AIStudies</title>
+    <meta name="description" content="Discover your ideal career path with CareerPath AI. Our free AI-powered tool analyzes your skills, interests, and goals to provide personalized career recommendations for students and young professionals." />
+    <meta name="keywords" content="career guidance, AI career tool, student career planning, career recommendations, free career test" />
+    <meta name="author" content="AIStudies" />
+    <link rel="canonical" href="https://aistudies.blog/careerpath-ai/" />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CareerPath AI — Free Career Guidance Tool for Students | AIStudies" />
+    <meta property="og:description" content="Discover your ideal career path with CareerPath AI. Our free AI-powered tool analyzes your skills, interests, and goals to provide personalized career recommendations." />
+    <meta property="og:url" content="https://aistudies.blog/careerpath-ai/" />
+    <meta property="og:site_name" content="AIStudies" />
+    <meta property="og:image" content="https://aistudies.blog/careerpath-ai/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CareerPath AI — Free Career Guidance Tool for Students" />
+    <meta name="twitter:description" content="AI-powered career guidance tool for students. Free and instant." />
+
+    <!-- FAQ JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is CareerPath AI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CareerPath AI is a free, AI-powered career guidance tool that analyzes your skills, interests, and goals to provide personalized career recommendations for students and young professionals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does CareerPath AI work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CareerPath AI uses a 3-step process: you enter your skills, select your interests, and define your career goals. Our AI then analyzes this information to recommend the best career paths for you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is CareerPath AI free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, CareerPath AI is completely free to use. You can get personalized career recommendations and download a PDF report at no cost."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I download my career recommendations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can download a comprehensive PDF report of your career recommendations, including detailed information about each suggested career path."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- iframe auto-resize script -->
+    <script>
+      (function() {
+        function sendHeight() {
+          var height = document.body.scrollHeight;
+          window.parent.postMessage({ type: 'careerpath-resize', height: height }, '*');
+        }
+        window.addEventListener('load', function() {
+          sendHeight();
+          if (typeof ResizeObserver !== 'undefined') {
+            var ro = new ResizeObserver(function() {
+              sendHeight();
+            });
+            ro.observe(document.body);
+          } else {
+            setInterval(sendHeight, 500);
+          }
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

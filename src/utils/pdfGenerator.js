@@ -1,0 +1,240 @@
+import { jsPDF } from 'jspdf'
+
+const COLORS = {
+  primary: [108, 99, 255],
+  secondary: [79, 70, 229],
+  accent: [0, 212, 170],
+  text: [30, 27, 75],
+  subtext: [107, 114, 128],
+  bg: [240, 244, 255],
+  white: [255, 255, 255],
+}
+
+function addHeader(doc) {
+  // Header gradient bar
+  doc.setFillColor(...COLORS.primary)
+  doc.rect(0, 0, 210, 35, 'F')
+
+  // Accent line
+  doc.setFillColor(...COLORS.accent)
+  doc.rect(0, 35, 210, 2, 'F')
+
+  // Title
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(22)
+  doc.setTextColor(...COLORS.white)
+  doc.text('CareerPath AI Report', 20, 22)
+
+  // Subtitle
+  doc.setFontSize(10)
+  doc.setFont('helvetica', 'normal')
+  doc.setTextColor(220, 220, 255)
+  doc.text('Personalized Career Recommendations', 20, 30)
+
+  // Date
+  const date = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+  doc.setFontSize(9)
+  doc.text(date, 190, 30, { align: 'right' })
+}
+
+function addProfileSection(doc, formData, startY) {
+  let y = startY
+
+  // Section header
+  doc.setFillColor(...COLORS.bg)
+  doc.roundedRect(15, y, 180, 8, 2, 2, 'F')
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(12)
+  doc.setTextColor(...COLORS.primary)
+  doc.text('Your Profile', 20, y + 6)
+  y += 14
+
+  // Skills
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(10)
+  doc.setTextColor(...COLORS.text)
+  doc.text('Skills:', 20, y)
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(9)
+  doc.setTextColor(...COLORS.subtext)
+
+  const skillsText = formData.skills.join(', ')
+  const skillLines = doc.splitTextToSize(skillsText, 155)
+  doc.text(skillLines, 45, y)
+  y += skillLines.length * 5 + 4
+
+  // Interests
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(10)
+  doc.setTextColor(...COLORS.text)
+  doc.text('Interests:', 20, y)
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(9)
+  doc.setTextColor(...COLORS.subtext)
+  const interestsText = formData.interests.join(', ')
+  const interestLines = doc.splitTextToSize(interestsText, 148)
+  doc.text(interestLines, 48, y)
+  y += interestLines.length * 5 + 4
+
+  return y
+}
+
+function addCareerSection(doc, career, index, startY) {
+  let y = startY
+
+  // Check if we need a new page
+  if (y > 240) {
+    doc.addPage()
+    y = 20
+  }
+
+  // Career card background
+  doc.setFillColor(...COLORS.white)
+  doc.setDrawColor(220, 220, 240)
+  doc.roundedRect(15, y, 180, 55, 3, 3, 'FD')
+
+  // Career number badge
+  doc.setFillColor(...COLORS.primary)
+  doc.circle(25, y + 8, 4, 'F')
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(8)
+  doc.setTextColor(...COLORS.white)
+  doc.text(String(index + 1), 25, y + 9.5, { align: 'center' })
+
+  // Title
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(12)
+  doc.setTextColor(...COLORS.text)
+  doc.text(career.title, 33, y + 10)
+
+  // Match badge
+  doc.setFillColor(...COLORS.accent)
+  doc.roundedRect(165, y + 4, 25, 8, 2, 2, 'F')
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(9)
+  doc.setTextColor(...COLORS.white)
+  doc.text(`${career.matchPercentage}%`, 177, y + 9.5, { align: 'center' })
+
+  // Field
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(8)
+  doc.setTextColor(...COLORS.subtext)
+  doc.text(career.field, 33, y + 16)
+
+  // Description
+  doc.setFontSize(8.5)
+  doc.setTextColor(...COLORS.subtext)
+  const descLines = doc.splitTextToSize(career.description, 170)
+  doc.text(descLines.slice(0, 2), 20, y + 23)
+  let descHeight = Math.min(descLines.length, 2) * 4
+
+  // Stats row
+  const statsY = y + 23 + descHeight + 3
+  doc.setFontSize(8)
+
+  // Salary
+  doc.setFont('helvetica', 'bold')
+  doc.setTextColor(...COLORS.primary)
+  doc.text('Salary: ', 20, statsY)
+  doc.setFont('helvetica', 'normal')
+  doc.setTextColor(...COLORS.subtext)
+  doc.text(career.salaryRange, 40, statsY)
+
+  // Growth
+  doc.setFont('helvetica', 'bold')
+  doc.setTextColor(...COLORS.primary)
+  doc.text('Growth: ', 105, statsY)
+  doc.setFont('helvetica', 'normal')
+  doc.setTextColor(...COLORS.subtext)
+  doc.text(career.growthOutlook, 125, statsY)
+
+  // Skills row
+  const skillsY = statsY + 6
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(8)
+  doc.setTextColor(...COLORS.primary)
+  doc.text('Key Skills: ', 20, skillsY)
+  doc.setFont('helvetica', 'normal')
+  doc.setTextColor(...COLORS.subtext)
+  const skillsList = career.requiredSkills?.slice(0, 5).join(' • ') || ''
+  doc.text(skillsList, 48, skillsY)
+
+  return y + 62
+}
+
+function addFooter(doc) {
+  const pageCount = doc.internal.getNumberOfPages()
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i)
+
+    // Footer line
+    doc.setDrawColor(...COLORS.primary)
+    doc.setLineWidth(0.5)
+    doc.line(15, 282, 195, 282)
+
+    // Footer text
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(7)
+    doc.setTextColor(...COLORS.subtext)
+    doc.text('Generated by CareerPath AI — aistudies.blog', 15, 288)
+    doc.text(`Page ${i} of ${pageCount}`, 195, 288, { align: 'right' })
+  }
+}
+
+export async function generatePDF(results, formData) {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4',
+  })
+
+  // Header
+  addHeader(doc)
+
+  // Profile summary
+  let y = addProfileSection(doc, formData, 45)
+
+  // Summary text
+  if (results.summary) {
+    y += 4
+    doc.setFillColor(...COLORS.bg)
+    doc.roundedRect(15, y, 180, 8, 2, 2, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(12)
+    doc.setTextColor(...COLORS.primary)
+    doc.text('AI Analysis', 20, y + 6)
+    y += 12
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.setTextColor(...COLORS.subtext)
+    const summaryLines = doc.splitTextToSize(results.summary, 170)
+    doc.text(summaryLines, 20, y)
+    y += summaryLines.length * 5 + 6
+  }
+
+  // Career recommendations header
+  doc.setFillColor(...COLORS.bg)
+  doc.roundedRect(15, y, 180, 8, 2, 2, 'F')
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(12)
+  doc.setTextColor(...COLORS.primary)
+  doc.text('Career Recommendations', 20, y + 6)
+  y += 14
+
+  // Career cards
+  const careers = results.careers || []
+  for (let i = 0; i < careers.length; i++) {
+    y = addCareerSection(doc, careers[i], i, y)
+  }
+
+  // Footer
+  addFooter(doc)
+
+  // Save
+  doc.save('CareerPath-AI-Report.pdf')
+}

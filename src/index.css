@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============== GLOBAL STYLES =============== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #F0F4FF;
+  color: #1E1B4B;
+  line-height: 1.7;
+  font-weight: 400;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============== GLASS MORPHISM =============== */
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(108, 99, 255, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .glass-card-hover {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card-hover:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  /* =============== GRADIENT BUTTON =============== */
+  .btn-gradient {
+    background: linear-gradient(135deg, #6C63FF 0%, #4F46E5 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-gradient:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(108, 99, 255, 0.35);
+  }
+
+  .btn-gradient:active {
+    transform: scale(0.98);
+  }
+
+  .btn-gradient:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* =============== OUTLINE BUTTON =============== */
+  .btn-outline {
+    background: transparent;
+    color: #6C63FF;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    border: 2px solid #6C63FF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+  }
+
+  .btn-outline:hover {
+    background: rgba(108, 99, 255, 0.08);
+    transform: scale(1.05);
+  }
+
+  /* =============== INPUT STYLES =============== */
+  .input-glass {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #DDD6FE;
+    background: rgba(255, 255, 255, 0.8);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #1E1B4B;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .input-glass:focus {
+    border-color: #A78BFA;
+    ring: 2px;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.25);
+  }
+
+  .input-glass::placeholder {
+    color: #9CA3AF;
+  }
+
+  /* =============== PROGRESS BAR =============== */
+  .progress-gradient {
+    background: linear-gradient(90deg, #6C63FF 0%, #4F46E5 40%, #00D4AA 100%);
+  }
+
+  /* =============== TAG / CHIP =============== */
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .tag-chip-default {
+    background: rgba(108, 99, 255, 0.08);
+    color: #4F46E5;
+    border-color: rgba(108, 99, 255, 0.15);
+  }
+
+  .tag-chip-default:hover {
+    background: rgba(108, 99, 255, 0.15);
+    border-color: rgba(108, 99, 255, 0.3);
+  }
+
+  .tag-chip-selected {
+    background: linear-gradient(135deg, #6C63FF, #4F46E5);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+  }
+
+  /* =============== ANIMATION KEYFRAMES =============== */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(108, 99, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(108, 99, 255, 0.4);
+    }
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+}
+
+/* =============== SCROLLBAR =============== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(108, 99, 255, 0.3);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 99, 255, 0.5);
+}
+
+/* =============== SELECTION =============== */
+::selection {
+  background: rgba(108, 99, 255, 0.2);
+  color: #1E1B4B;
+}
