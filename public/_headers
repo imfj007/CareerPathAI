@@ -1,5 +1,5 @@
 /*
-  /careerpath-ai/*
+  /CareerPathAI/*
     Access-Control-Allow-Origin: *
     X-Frame-Options: ALLOWALL
     Content-Security-Policy: frame-ancestors *

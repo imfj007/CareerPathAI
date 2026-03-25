@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://aistudies.blog/careerpath-ai/",
+  "homepage": "https://imfj007.github.io/CareerPathAI/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
